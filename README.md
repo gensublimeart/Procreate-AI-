@@ -1,44 +1,83 @@
 # Procreate及AI生圖工作坊
 
-香港社福服務專業培訓教材包，以繁體中文製作。
+**香港社福服務專業培訓**
 
-## 內容
+> **提示**：若主辦方已提供 GitHub Pages 網址，請優先使用該連結開啟簡報及工作紙，以獲得最佳全螢幕瀏覽體驗。
 
-| 檔案 | 說明 |
+歡迎各位社工同工！本教材包涵蓋簡報、學員工作紙及網上筆記，協助你掌握 **AI 圖像生成** 與 **Procreate 數碼繪畫**，並以負責任的方式應用於服務設計、社區教育及小組活動。
+
+| | |
+|---|---|
+| **導師** | Manny Yip |
+| **主辦機構** | GenSublime |
+| **時長** | 3 小時 |
+| **日期** | 2026年6月15日起 |
+
+> 參加者毋須具備專業繪畫背景；重點在於理解工具、掌握流程，並以負責任的方式應用於香港社福服務情境。
+
+---
+
+## 工作坊教材
+
+請按需要開啟以下資源。建議同時使用 **網上筆記** 與 **工作紙** 進行練習。
+
+### 📽️ 簡報
+
+全螢幕投影片，涵蓋 Procreate 基礎、AI 圖像生成原理、提示詞工程、小組活動及倫理討論。支援鍵盤方向鍵翻頁。
+
+- [**開啟簡報**](slides.html)
+- [下載 Markdown 來源檔](slides.md)
+
+### 📝 學員工作紙
+
+互動式工作紙，包含 Procreate 筆記欄、圖片描述練習及 2×2 漫畫格創作框架，適合課堂即時填寫。
+
+- [**開啟工作紙**](worksheet.html)
+- [下載 Markdown 來源檔](worksheet.md)
+
+### 📄 工作紙 PDF
+
+可列印版本，方便課前派發或課後複習。
+
+- [**下載 PDF**](worksheet.pdf)
+- [瀏覽 PDF](worksheet.pdf)
+
+### 💻 網上筆記
+
+互動式學習筆記，按主題分節瀏覽，包含 AI 平台連結、理論圖解及提示詞公式，適合課後自修。
+
+- [**開啟網上筆記**](online_note.html)
+
+---
+
+## 今日行程概覽
+
+| 時段 | 內容 |
 |------|------|
-| `index.html` | 工作坊首頁 |
-| `slides.html` | 簡報（Marp 全螢幕投影片） |
-| `worksheet.html` | 學員工作紙（互動版） |
-| `worksheet.pdf` | 學員工作紙（可列印 PDF） |
-| `online_note.html` | 網上筆記（互動式學習頁面） |
-| `slides.md` / `worksheet.md` | 原始 Markdown 來源檔 |
+| 30 分鐘 | Procreate 數碼繪畫基礎教學 |
+| 5 分鐘 | 小休 |
+| 10 分鐘 | 登入 AI 圖像生成網站 |
+| 30 分鐘 | LLM 理論與圖像生成原理 |
+| 15 分鐘 | 小組活動一：圖片描述 |
+| 15 分鐘 | 提示詞寫作教學 |
+| 30 分鐘 | 小組活動二：創作 2×2 漫畫格（主題：「建構更美好的世界」） |
+| 15 分鐘 | AI 倫理與偏見 |
+| 15 分鐘 | 學員分享 |
 
-## 部署至 GitHub Pages
+---
 
-### 方法一：以此資料夾作為倉庫根目錄
+## 學習重點
 
-1. 在 GitHub 建立新倉庫
-2. 將 `For_Github` 資料夾內所有檔案推送到倉庫根目錄
-3. 前往 **Settings → Pages**
-4. 在 **Build and deployment** 下選擇 **Deploy from a branch**
-5. Branch 選 `main`，Folder 選 `/ (root)`
-6. 儲存後數分鐘內即可透過 `https://<用戶名>.github.io/<倉庫名>/` 存取
+- **Procreate**：手勢操作、圖層、畫筆與匯出
+- **AI 圖像生成**：豆包、Qwen、Nano Bananar 等平台入門
+- **理論基礎**：LLM、Tokenization、潛在空間（Latent Space）
+- **提示詞工程**：主體、風格、環境、光線、視角
+- **倫理反思**：AI 偏見、版權及社工應用態度
 
-### 方法二：作為子資料夾（docs）
+---
 
-若整個專案是一個大倉庫，可將此資料夾內容複製到 `/docs`，然後在 Pages 設定中選擇 Folder 為 `/docs`。
+<p align="center">
+  <img src="company_logo/66559abdd5017b6a5bc3ac1e_Asset%203@2x.png" alt="GenSublime" width="160">
+</p>
 
-## 本地預覽
-
-使用任何靜態伺服器即可預覽，例如：
-
-```bash
-cd For_Github
-python -m http.server 8080
-```
-
-然後開啟 http://localhost:8080
-
-## 授權
-
-© 2026 GenSublime
+<p align="center">© 2026 GenSublime</p>
