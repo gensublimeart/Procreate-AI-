@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procreate及AI生圖工作坊 - 網上筆記</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ph: {
+              canvas: '#eeefe9',
+              primary: '#f7a501',
+              primaryPressed: '#dd9001',
+              ink: '#23251d',
+              body: '#4d4f46',
+              card: '#ffffff',
+              hairline: '#bfc1b7',
+              surfaceDark: '#23251d',
+              tipBg: '#dceaf6',
+              tipBorder: '#2c84e0',
+              warnBg: '#f7d6d3',
+              warnBorder: '#cd4239'
+            }
+          },
+          fontFamily: {
+            sans: ['IBM Plex Sans', 'PingFang HK', 'Microsoft JhengHei', 'sans-serif'],
+          },
+          borderRadius: {
+            'md': '6px',
+            'full': '9999px',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #eeefe9;
+      color: #4d4f46;
+    }
+    .nav-link {
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #4d4f46;
+      transition: all 0.2s;
+    }
+    .nav-link:hover {
+      background-color: #e5e7e0;
+    }
+    .active-nav {
+      background-color: #ffffff;
+      color: #23251d;
+      border: 1px solid #bfc1b7;
+    }
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #bfc1b7;
+      border-radius: 6px;
+      padding: 24px;
+    }
+    .pill {
+      background-color: #f7a501;
+      color: #23251d;
+      border-radius: 9999px;
+      padding: 4px 12px;
+      font-weight: 700;
+      font-size: 14px;
+      display: inline-block;
+    }
+    .heading-lg {
+      color: #23251d;
+      font-weight: 800;
+      font-size: 36px;
+      letter-spacing: -0.6px;
+      margin-bottom: 24px;
+    }
+    .heading-md {
+      color: #23251d;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const sections = [
+      { id: 'intro', title: ' 工作坊簡介' },
+      { id: 'procreate', title: ' Procreate 基礎' },
+      { id: 'ai-tools', title: ' AI 圖像生成平台' },
+      { id: 'theory', title: ' LLM 與生成原理' },
+      { id: 'prompt', title: ' 提示詞工程' },
+      { id: 'activity', title: ' 小組活動' },
+      { id: 'ethics', title: ' AI 倫理' }
+    ];
+
+    const IntroSection = () => (
+      <div className="space-y-8 animate-fade-in">
+        <h2 className="heading-lg">工作坊簡介</h2>
+        <div className="card shadow-sm">
+          <div className="pill mb-4"> 準備好未？</div>
+          <p className="text-lg mb-2"><strong className="text-ph-ink">主題：</strong> Procreate及AI生圖工作坊 </p>
+          <p className="text-lg mb-2"><strong className="text-ph-ink">導師：</strong> Manny Yip ‍</p>
+          <p className="text-lg mb-2"><strong className="text-ph-ink">主辦機構：</strong> GenSublime</p>
+          <p className="text-lg mb-2"><strong className="text-ph-ink">日期：</strong> 2026年6月15日起</p>
+          <p className="text-lg"><strong className="text-ph-ink">時長：</strong> 3 小時</p>
+        </div>
+        
+        <div>
+          <h3 className="heading-md"> 今日超豐富行程</h3>
+          <div className="card">
+            <ul className="space-y-3 text-lg">
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>30分鐘：</strong> Procreate 數碼繪畫基礎教學</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>5分鐘：</strong> 小休</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>10分鐘：</strong> 登入 AI 圖像生成網站</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>30分鐘：</strong> LLM AI 理論與圖像生成原理</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>15分鐘：</strong> 小組活動一 (圖片描述)</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>15分鐘：</strong> 提示詞寫作教學</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>30分鐘：</strong> 小組活動二 (創作 2x2 漫畫格)</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>15分鐘：</strong> AI 倫理與偏見</li>
+              <li className="flex items-center"><span className="w-8 text-center"></span> <strong>15分鐘：</strong> 學員分享</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+
+    const ProcreateSection = () => (
+      <div className="space-y-8">
+        <h2 className="heading-lg">Procreate 數碼繪畫基礎 </h2>
+        
+        <div className="bg-ph-tipBg border-l-4 border-ph-tipBorder p-4 rounded-md text-ph-ink mb-6">
+          <strong> 小貼士：</strong> 放鬆心情，當今日係嚟玩嘅就得喇！唔使驚畫畫唔靚！
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="card">
+            <h3 className="heading-md"> 魔法手勢操作</h3>
+            <ul className="space-y-3">
+              <li><strong className="text-ph-ink">兩指點擊：</strong> 復原 (Undo) <em></em></li>
+              <li><strong className="text-ph-ink">三指點擊：</strong> 重做 (Redo) </li>
+              <li><strong className="text-ph-ink">兩指捏合：</strong> 縮放畫布 </li>
+              <li><strong className="text-ph-ink">三指下滑：</strong> 呼叫複製貼上選單 </li>
+            </ul>
+          </div>
+          <div className="card">
+            <h3 className="heading-md"> 核心功能</h3>
+            <ul className="space-y-3">
+              <li><strong className="text-ph-ink">畫筆 (Brushes)：</strong> 試吓唔同筆觸，調整大小同透明度</li>
+              <li><strong className="text-ph-ink">圖層 (Layers)：</strong> 就好似透明膠片疊埋一齊，分層畫唔怕整花！</li>
+              <li><strong className="text-ph-ink">顏色 (Color)：</strong> 揀隻最靚嘅色！</li>
+              <li><strong className="text-ph-ink">匯出：</strong> 儲存為 PNG, JPEG 或 PSD 檔案</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+
+    const AIToolsSection = () => (
+      <div className="space-y-8">
+        <h2 className="heading-lg">AI 圖像生成平台 </h2>
+        <p className="text-lg">準備好你哋嘅電腦或平板電腦，我哋即將登入幾個常用嘅 AI 平台！</p>
+        
+        <div className="space-y-4">
+          <div className="card flex flex-col md:flex-row gap-4 items-start">
+            <div className="text-4xl"></div>
+            <div>
+              <h3 className="heading-md mb-2">1. 豆包 (Doubao)</h3>
+              <a href="https://www.doubao.com/chat/" target="_blank" rel="noreferrer" className="text-ph-ink underline">https://www.doubao.com/chat/</a>
+              <p>字節跳動旗下嘅 AI 助手，支援中文指令，介面極度友善，非常適合初學者快速上手。</p>
+            </div>
+          </div>
+          <div className="card flex flex-col md:flex-row gap-4 items-start">
+            <div className="text-4xl"></div>
+            <div>
+              <h3 className="heading-md mb-2">2. Qwen (通義千問)</h3>
+              <a href="https://qwen.ai/home" target="_blank" rel="noreferrer" className="text-ph-ink underline">https://qwen.ai/home</a>
+              <p>阿里雲開發嘅大型語言模型，具備強大嘅圖像生成能力同埋理解能力。</p>
+            </div>
+          </div>
+          <div className="card flex flex-col md:flex-row gap-4 items-start">
+            <div className="text-4xl"></div>
+            <div>
+              <h3 className="heading-md mb-2">3. Nano Bananar</h3>
+              <a href="https://nanobanana.io/" target="_blank" rel="noreferrer" className="text-ph-ink underline">https://nanobanana.io/</a>
+              <p>新興嘅 AI 圖像生成工具，提供簡潔嘅介面同埋高質量嘅生成效果。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    const TheorySection = () => (
+      <div className="space-y-8">
+        <h2 className="heading-lg">LLM 與生成原理 </h2>
+        
+        <div className="card mb-6">
+          <div className="pill mb-4">大腦體操 1</div>
+          <h3 className="heading-md">咩係 LLM (大型語言模型)？</h3>
+          <p className="text-lg">LLM 係基於深度學習嘅人工智能模型，透過閱讀海量文本數據，學習人類語言嘅規律。<strong>簡單講：佢睇咗好多好多書，所以識得同你傾偈。</strong></p>
+        </div>
+
+        <div className="card mb-6 overflow-hidden">
+          <img src="images/NLP-and-LLM-1-1024x576.webp" alt="NLP and LLM diagram" className="w-full rounded-3xl shadow-lg" />
+        </div>
+
+        <div className="card mb-6">
+          <div className="pill mb-4">大腦體操 2</div>
+          <h3 className="heading-md">Tokenization (詞元化)</h3>
+          <p className="text-lg">Tokenization 係將句子拆分成一個個小單位 (Token) 嘅過程。AI 模型處理嘅唔係文字，而係數字。每個 Token 都會被轉換成一組數字向量。</p>
+        </div>
+
+        <div className="card mb-6 overflow-hidden">
+          <img src="images/frame-02.webp" alt="Tokenization visual" className="w-full rounded-3xl shadow-lg" />
+        </div>
+
+        <div className="card mb-6">
+          <div className="pill mb-4">大腦體操 3</div>
+          <h3 className="heading-md">Latent Space(潛在空間)</h3>
+          <p className="text-lg">潛在空間係一個多維度嘅數學空間，AI 將所有學習到嘅圖像特徵都壓縮喺呢個空間入面。當我哋輸入提示詞，AI 就會喺潛在空間中尋找對應嘅座標，然後將嗰個位置嘅資訊解碼成圖像。<strong>就好似喺宇宙中尋寶咁！</strong></p>
+        </div>
+
+        <div className="card mb-6 overflow-hidden">
+          <img src="images/LatentSpace.webp" alt="Latent space visualization" className="w-full rounded-3xl shadow-lg" />
+        </div>
+
+        <div className="card bg-ph-warnBg border-ph-warnBorder">
+          <div className="pill bg-ph-ink text-white mb-4"> 進階魔法</div>
+          <h3 className="heading-md">ControlNet</h3>
+          <p className="text-lg">ControlNet 係一種可以精確控制 AI 圖像生成嘅技術。透過提供邊緣圖、骨架圖或深度圖，我哋可以指定生成圖像嘅構圖、人物姿勢等。</p>
+        </div>
+      </div>
+    );
+
+    const PromptSection = () => (
+      <div className="space-y-8">
+        <h2 className="heading-lg">提示詞工程 (Prompt Engineering) </h2>
+        
+        <p className="text-xl font-bold text-ph-ink">提示詞工程就係學習如何有效地與 AI 溝通，寫出能夠引導 AI 生成理想結果嘅指令！</p>
+
+        <div className="card bg-ph-surfaceDark text-white border-none">
+          <h3 className="text-2xl font-bold mb-4"> 魔法公式</h3>
+          <div className="bg-black p-4 rounded-md font-mono text-xl mb-4 text-center">
+            [風格] 嘅 [主體]，喺 [環境] 中，[光線] 照射，[視角]。
+          </div>
+          <p className="italic text-ph-hairline text-center">例子：水彩畫風格嘅一隻可愛小貓，喺陽光普照嘅花園入面玩毛線，柔和自然光，特寫鏡頭。</p>
+        </div>
+
+        <h3 className="heading-md mt-8">提示詞五大元素</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="card">
+            <h4 className="font-bold text-ph-ink text-lg mb-2">1. 主體 (Subject)</h4>
+            <p>人物、動物、物件等。越具體越好。</p>
+          </div>
+          <div className="card">
+            <h4 className="font-bold text-ph-ink text-lg mb-2">2. 媒介/風格 (Style)</h4>
+            <p>油畫、水彩、3D 渲染、Cyberpunk、極簡主義等。</p>
+          </div>
+          <div className="card">
+            <h4 className="font-bold text-ph-ink text-lg mb-2">3. 環境 (Environment)</h4>
+            <p>室內、戶外、城市、森林、太空等。</p>
+          </div>
+          <div className="card">
+            <h4 className="font-bold text-ph-ink text-lg mb-2">4. 光線 (Lighting)</h4>
+            <p>自然光、霓虹燈、暖色調、黑白等。</p>
+          </div>
+          <div className="card">
+            <h4 className="font-bold text-ph-ink text-lg mb-2">5. 視角 (Perspective)</h4>
+            <p>特寫、廣角、鳥瞰、仰視、對稱等。</p>
+          </div>
+        </div>
+      </div>
+    );
+
+    const ActivitySection = () => (
+      <div className="space-y-8">
+        <h2 className="heading-lg">小組活動 </h2>
+        
+        <div className="card mb-8">
+          <div className="pill mb-4">活動一</div>
+          <h3 className="heading-md">圖片描述練習 </h3>
+          <p className="text-lg mb-4"><strong className="text-ph-ink">目標：</strong> 訓練觀察力同文字表達能力，為寫作提示詞打好基礎。</p>
+          <ul className="space-y-2 text-lg">
+            <li> 5人一組。</li>
+            <li> 導師會展示 10 張圖片。</li>
+            <li> 請仔細觀察，並用多個句子詳細描述圖片中嘅細節 (主體、環境、光線、氣氛等)。</li>
+          </ul>
+        </div>
+
+        <div className="card">
+          <div className="pill mb-4">活動二</div>
+          <h3 className="heading-md">創作 2x2 漫畫格 ‍</h3>
+          <p className="text-xl font-bold text-ph-ink mb-4">主題：「建構更美好的世界」</p>
+          <p className="text-lg mb-4"><strong className="text-ph-ink">流程：</strong></p>
+          <ol className="list-decimal pl-6 space-y-3 text-lg font-bold text-ph-ink">
+            <li><span className="font-normal text-ph-body"><strong>構思：</strong> 討論故事大綱同每格漫畫嘅內容。</span></li>
+            <li><span className="font-normal text-ph-body"><strong>生成：</strong> 使用 AI 工具生成 4 張相關嘅圖片。</span></li>
+            <li><span className="font-normal text-ph-body"><strong>後製：</strong> 將圖片匯入 Procreate，加入對白框、文字或進行修飾。</span></li>
+            <li><span className="font-normal text-ph-body"><strong>分享：</strong> 每組派代表分享作品同創作意念。</span></li>
+          </ol>
+        </div>
+      </div>
+    );
+
+    const EthicsSection = () => (
+      <div className="space-y-8">
+        <h2 className="heading-lg">AI 倫理與偏見 </h2>
+        
+        <div className="card mb-6">
+          <h3 className="heading-md"> AI 偏見 (AI Bias)</h3>
+          <p className="text-lg mb-4">AI 模型係從人類產生嘅數據中學習，因此無可避免地會繼承人類嘅偏見同刻板印象。例如：</p>
+          <ul className="list-disc pl-6 space-y-2 text-lg">
+            <li><strong>職業性別定型：</strong> 護士多數生成女性，工程師多數生成男性。</li>
+            <li><strong>種族代表性不足：</strong> 某些種族或文化特徵喺生成結果中被邊緣化。</li>
+          </ul>
+        </div>
+
+        <div className="card mb-6">
+          <h3 className="heading-md"> 其他倫理考量</h3>
+          <ul className="list-disc pl-6 space-y-2 text-lg">
+            <li><strong>版權問題：</strong> AI 生成嘅圖像版權歸屬未明。</li>
+            <li><strong>深度偽造 (Deepfake)：</strong> 容易被用作製造假新聞或損害他人名譽。</li>
+            <li><strong>真實性與信任：</strong> 難以分辨圖像真偽。</li>
+          </ul>
+        </div>
+
+        <div className="bg-ph-warnBg border-l-4 border-ph-warnBorder p-6 rounded-md">
+          <h3 className="heading-md text-ph-warnBorder"> 社工嘅應對態度</h3>
+          <ul className="space-y-3 text-lg font-bold text-ph-ink">
+            <li> 保持批判性思考，唔好盲目相信 AI 生成嘅內容。</li>
+            <li> 謹慎使用 AI，特別係涉及敏感議題或弱勢社群時。</li>
+            <li> 關注 AI 對社會嘅影響，倡導公平同負責任嘅 AI 應用。</li>
+          </ul>
+        </div>
+      </div>
+    );
+
+    const App = () => {
+      const [activeSection, setActiveSection] = useState('intro');
+
+      const renderSection = () => {
+        switch(activeSection) {
+          case 'intro': return <IntroSection />;
+          case 'procreate': return <ProcreateSection />;
+          case 'ai-tools': return <AIToolsSection />;
+          case 'theory': return <TheorySection />;
+          case 'prompt': return <PromptSection />;
+          case 'activity': return <ActivitySection />;
+          case 'ethics': return <EthicsSection />;
+          default: return <IntroSection />;
+        }
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col md:flex-row max-w-7xl mx-auto">
+          {/* Sidebar */}
+          <div className="w-full md:w-64 p-6 md:py-12 flex flex-col shrink-0">
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold text-ph-ink leading-tight mb-2">Procreate及AI生圖工作坊</h1>
+              <div className="pill mt-2">社工工作坊</div>
+            </div>
+            <nav className="flex flex-row md:flex-col overflow-x-auto md:overflow-visible space-x-2 md:space-x-0 md:space-y-2 pb-4 md:pb-0 scrollbar-hide">
+              {sections.map(section => (
+                <div 
+                  key={section.id}
+                  className={`nav-link whitespace-nowrap md:whitespace-normal ${activeSection === section.id ? 'active-nav' : ''}`}
+                  onClick={() => setActiveSection(section.id)}
+                >
+                  {section.title}
+                </div>
+              ))}
+            </nav>
+            <div className="mt-auto hidden md:block pt-12">
+              <img src="company_logo/66559abdd5017b6a5bc3ac1e_Asset%203@2x.png" alt="GenSublime Logo" className="w-32 opacity-80 mix-blend-multiply" />
+              <p className="text-xs mt-4 font-bold text-ph-hairline"> 2026 GenSublime.</p>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 p-6 md:p-12 md:pl-0 max-w-4xl">
+            {renderSection()}
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
